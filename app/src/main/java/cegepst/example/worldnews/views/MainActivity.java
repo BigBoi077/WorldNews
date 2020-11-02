@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import cegepst.example.worldnews.R;
+import cegepst.example.worldnews.models.ArticleMaker;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ArticleMaker articleMaker;
     private String email;
 
     @Override
@@ -18,5 +20,6 @@ public class MainActivity extends AppCompatActivity {
         if (getIntent().hasExtra("email")) {
             this.email = getIntent().getStringExtra("email");
         }
+        articleMaker = new ArticleMaker();
     }
 }

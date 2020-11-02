@@ -9,7 +9,13 @@ public class Article {
     private int nbrViews;
     private boolean compactMode;
 
-    public Article() {
+    public Article(ArticleMaker articleMaker) {
+        this.articleMaker = articleMaker;
+    }
 
+    public Article(int index) {
+        title = articleMaker.getArticleTitle(index);
+        author = articleMaker.getAuthors(index);
+        description = articleMaker.getArticleContent(index);
     }
 }
