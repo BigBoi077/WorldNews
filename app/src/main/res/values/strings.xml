@@ -2,4 +2,6 @@
     <string name="app_name">WorldNews</string>
     <string name="emailHint">JohnDoe@gmail.com</string>
     <string name="startSession">Débuter session</string>
+    <string name="terminate_session">Terminer session</string>
+    <string name="action_favorite">Favoris</string>
 </resources>
