@@ -23,10 +23,10 @@ public class LoginActivity extends AppCompatActivity {
         String email = emailInput.getText().toString();
         if (email == null || email.equals("")) {
             Toast.makeText(this, "Veuillez entrer votre adresse electronique avant de continuer", Toast.LENGTH_SHORT).show();
-        } else {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra(email, "email");
-            startActivity(intent);
+            return;
         }
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(email, "email");
+        startActivity(intent);
     }
 }

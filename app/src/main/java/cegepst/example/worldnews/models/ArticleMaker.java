@@ -1,25 +1,22 @@
 package cegepst.example.worldnews.models;
 
+import android.content.Context;
 import android.content.res.Resources;
 
 import cegepst.example.worldnews.R;
 
 public class ArticleMaker {
 
-    private Resources resources;
+    private Context context;
     private String[] articleTitles;
     private String[] articleContent;
     private String[] authors;
 
-    public ArticleMaker() {
-        resources = Resources.getSystem();
-        articleTitles = getStringArray(R.array.articleTitles);
-        articleContent = getStringArray(R.array.articleContent);
-        authors = getStringArray(R.array.authors);
-    }
-
-    private String[] getStringArray(int id) {
-        return resources.getStringArray(id);
+    public ArticleMaker(Context context) {
+        this.context = context;
+        articleTitles = context.getResources().getStringArray(R.array.articleTitles);
+        articleContent = context.getResources().getStringArray(R.array.articleContent);
+        authors = context.getResources().getStringArray(R.array.authors);
     }
 
     public String getArticleTitle(int index) {

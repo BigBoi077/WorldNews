@@ -2,9 +2,6 @@ package cegepst.example.worldnews.models;
 
 public class Article {
 
-    private final int MAX = 1000;
-    private final int MIN = 150;
-
     private ArticleMaker articleMaker;
     private String title;
     private String author;
@@ -12,15 +9,39 @@ public class Article {
     private int nbrViews;
     private boolean compactMode;
 
-    public Article(ArticleMaker articleMaker) {
-        this.articleMaker = articleMaker;
-    }
-
-    public Article(int index) {
+    public Article(int index, ArticleMaker articleMaker) {
         title = articleMaker.getArticleTitle(index);
         author = articleMaker.getAuthors(index);
         description = articleMaker.getArticleContent(index);
-        nbrViews = RandomGenerator.getRandomInRange(MAX, MIN);
+        nbrViews = RandomGenerator.getRandomInRange(Constants.MAX_VIEWS, Constants.MIN_VIEWS);
         compactMode = false;
+    }
+
+    public void setCompactMode(boolean compactMode) {
+        this.compactMode = compactMode;
+    }
+
+    public ArticleMaker getArticleMaker() {
+        return articleMaker;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getNbrViews() {
+        return nbrViews;
+    }
+
+    public boolean isCompactMode() {
+        return compactMode;
     }
 }

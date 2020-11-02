@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Article> articles;
     private ArticleMaker articleMaker;
     private String email;
+    private int articleIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +30,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initVariables() {
-        articleMaker = new ArticleMaker();
+        articleMaker = new ArticleMaker(getApplicationContext());
         articles = new ArrayList<>();
+        articleIndex = 0;
         for (int index = 0; index < 10; index++) {
-            articles.add(new Article(index));
+            articles.add(new Article(index, articleMaker));
         }
     }
 }
