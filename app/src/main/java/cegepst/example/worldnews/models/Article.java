@@ -2,12 +2,12 @@ package cegepst.example.worldnews.models;
 
 public class Article {
 
-    ArticleMaker articleMaker;
-    String title;
-    String author;
-    String description;
-    int nbrViews;
-    boolean compactMode;
+    private ArticleMaker articleMaker;
+    private String title;
+    private String author;
+    private String description;
+    private int nbrViews;
+    private boolean compactMode;
 
     public Article() {
 

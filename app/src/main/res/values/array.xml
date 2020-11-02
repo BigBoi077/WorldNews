@@ -27,4 +27,17 @@
         <item>Vivamus rhoncus volutpat fermentum. Morbi tincidunt imperdiet velit id dictum. Integer sit amet felis purus. Nam porttitor metus ac justo accumsan suscipit. Vestibulum mi eros, convallis ut venenatis ac, iaculis ut augue. Nulla a varius neque, non tincidunt nulla. Sed eleifend sapien vehicula ornare cursus. Maecenas ac libero eu nisl elementum pharetra ut in ante. Mauris vehicula nunc et consectetur luctus. In egestas eros augue, ut elementum nisl mattis ac.</item>
     </string-array>
 
+    <string-array name="authors">
+        <item>Haley Welsh</item>
+        <item>Kaiden Ahmed</item>
+        <item>Jadine Rosa</item>
+        <item>Cadence Miller</item>
+        <item>Susanna Henry</item>
+        <item>Keri Scott</item>
+        <item>Danial Holder</item>
+        <item>Luna Doherty</item>
+        <item>Jayda Monaghan</item>
+        <item>Ellouise Conrad</item>
+    </string-array>
+
 </resources>
