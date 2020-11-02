@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".views.LoginActivity">
+
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="52dp"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/ic_newslogo" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:textColor="@color/colorSecondary"
+        android:text="@string/app_name"
+        android:textSize="24dp"/>
+
+    <View
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_height="2dp"
+        android:background="@color/colorSecondary"/>
+
+    <EditText
+        android:id="@+id/emailInput"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_mail"
+        android:ems="13"
+        android:inputType="textEmailAddress"
+        android:hint="@string/emailHint" />
+
+    <View
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_height="2dp"
+        android:background="@color/colorSecondary"/>
+
+    <Button
+        android:id="@+id/startButton"
+        android:onClick="startSession"
+        android:layout_marginTop="48dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccentYellow"
+        android:textColor="@color/colorAccentGrey"
+        android:text="@string/startSession" />
+
+</LinearLayout>

@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">WorldNews</string>
+    <string name="emailHint">JohnDoe@gmail.com</string>
+    <string name="startSession">Débuter session</string>
+</resources>
