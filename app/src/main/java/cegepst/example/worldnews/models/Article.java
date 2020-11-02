@@ -2,6 +2,9 @@ package cegepst.example.worldnews.models;
 
 public class Article {
 
+    private final int MAX = 1000;
+    private final int MIN = 150;
+
     private ArticleMaker articleMaker;
     private String title;
     private String author;
@@ -17,5 +20,7 @@ public class Article {
         title = articleMaker.getArticleTitle(index);
         author = articleMaker.getAuthors(index);
         description = articleMaker.getArticleContent(index);
+        nbrViews = RandomGenerator.getRandomInRange(MAX, MIN);
+        compactMode = false;
     }
 }
