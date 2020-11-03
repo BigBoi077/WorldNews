@@ -4,4 +4,13 @@
     <string name="startSession">Débuter session</string>
     <string name="terminate_session">Terminer session</string>
     <string name="action_favorite">Favoris</string>
+    <string name="terminate_session_message">Êtes-vous sur que vous voulez terminer votre session sur WorldNews ?</string>
+    <string name="close_session_true">Terminer</string>
+    <string name="close_session_false">Fermer</string>
+    <string name="action_close">Fermer</string>
+    <string name="mode_compact">Compact</string>
+    <string name="mode_full">Full Article</string>
+    <string name="action_open">Ouvrir</string>
+    <string name="nav_favorites">Favoris</string>
+    <string name="nav_home">Accueil</string>
 </resources>

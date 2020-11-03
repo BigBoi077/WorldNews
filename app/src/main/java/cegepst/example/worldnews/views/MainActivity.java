@@ -3,16 +3,17 @@ package cegepst.example.worldnews.views;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
+import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private MenuItem favoriteItem;
     private MainPresenter presenter;
     private ArrayList<Article> articles;
+    private ArrayList<Article> favoriteArticles;
     private ArticleMaker articleMaker;
     private String email;
     private int articleIndex;
@@ -36,11 +38,57 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        presenter = new MainPresenter((MainContract.View) this);
-        initVariables();
         if (getIntent().hasExtra("email")) {
             this.email = getIntent().getStringExtra("email");
         }
+        // presenter = new MainPresenter(this);
+        initVariables();
+        initBottomNavigation();
+        initDrawerNavigation();
+    }
+
+    private void initDrawerNavigation() {
+        DrawerLayout drawerLayout = findViewById(R.id.menuDrawer);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.action_open, R.string.action_close);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        NavigationView navigationView = findViewById(R.id.menuDrawerNav);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.navHome:
+                        return true;
+                    case R.id.navFavorites:
+                        // TODO : only show favorites
+                    default:
+                        return false;
+                }
+            }
+        });
+    }
+
+    private void initBottomNavigation() {
+        BottomNavigationView navigationView = findViewById(R.id.menuBottom);
+        navigationView.setSelectedItemId(R.id.modeCompact);
+        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.modeCompact:
+                        // TODO : put article mode compact
+                        return true;
+                    case R.id.modeFull:
+                        // TODO : put article mode full
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
     }
 
     @Override
@@ -52,22 +100,37 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
         switch (item.getItemId()) {
             case R.id.actionFavorite:
                 if (favoriteItem == null) {
                     favoriteItem = item;
                 }
-                presenter.toggleFavorite();
+                // presenter.toggleFavorite();
                 return true;
-            case R.id.terminateSession:
-                // TODO : terminate session dialog
+            case R.id.actionTerminateSession:
+                terminateSessionDialog();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void terminateSessionDialog() {
+        new android.app.AlertDialog.Builder(MainActivity.this)
+                .setTitle(R.string.terminate_session)
+                .setMessage(R.string.terminate_session_message)
+                .setPositiveButton(R.string.close_session_true, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        terminateSession();
+                    }
+                }).setNegativeButton(R.string.close_session_false, null).show();
+    }
+
+    private void terminateSession() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void initVariables() {

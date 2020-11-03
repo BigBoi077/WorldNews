@@ -8,6 +8,6 @@
         android:id="@+id/actionFavorite"/>
     <item
         android:title="@string/terminate_session"
-        android:id="@+id/terminateSession"
+        android:id="@+id/actionTerminateSession"
         app:showAsAction="never" />
 </menu>

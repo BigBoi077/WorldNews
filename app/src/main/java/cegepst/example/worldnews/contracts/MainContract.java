@@ -6,7 +6,6 @@ public interface MainContract {
     }
     interface Presenter {
         void toggleFavorite();
-
         boolean getFavoriteState();
     }
 }
