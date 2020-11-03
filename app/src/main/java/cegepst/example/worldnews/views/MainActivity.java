@@ -23,7 +23,7 @@ import cegepst.example.worldnews.models.Article;
 import cegepst.example.worldnews.models.ArticleMaker;
 import cegepst.example.worldnews.presenters.MainPresenter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainContract.View {
 
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private MenuItem favoriteItem;
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         if (getIntent().hasExtra("email")) {
             this.email = getIntent().getStringExtra("email");
         }
-        // presenter = new MainPresenter(this);
+        presenter = new MainPresenter(this);
         initVariables();
         initBottomNavigation();
         initDrawerNavigation();
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                 if (favoriteItem == null) {
                     favoriteItem = item;
                 }
-                // presenter.toggleFavorite();
+                presenter.toggleFavorite();
                 return true;
             case R.id.actionTerminateSession:
                 terminateSessionDialog();
@@ -140,5 +140,13 @@ public class MainActivity extends AppCompatActivity {
         for (int index = 0; index < 10; index++) {
             articles.add(new Article(index, articleMaker));
         }
+    }
+
+    @Override
+    public void onFavoriteToggle(boolean favorite) {
+        if (favoriteItem == null) {
+            return;
+        }
+        favoriteItem.setIcon(favorite ? R.drawable.ic_favorite_filled : R.drawable.ic_favorite_outlined);
     }
 }
