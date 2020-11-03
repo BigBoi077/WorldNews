@@ -24,6 +24,39 @@
             app:itemIconTint="@color/colorSecondary"
             app:menu="@menu/bottom"/>
 
+        <ImageButton
+            android:id="@+id/leftButton"
+            android:onClick="goBackArticle"
+            android:background="@color/colorAccentBeige"
+            android:layout_width="48dp"
+            android:src="@drawable/ic_left_arrow"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toTopOf="@+id/menuBottom"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fragmentContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/menuBottom"
+            app:layout_constraintEnd_toStartOf="@+id/rightButton"
+            app:layout_constraintStart_toEndOf="@+id/leftButton"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageButton
+            android:id="@+id/rightButton"
+            android:onClick="goForwardArticle"
+            android:background="@color/colorAccentBeige"
+            android:layout_width="48dp"
+            android:src="@drawable/ic_right_arrow"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toTopOf="@+id/menuBottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -32,6 +65,7 @@
         android:layout_gravity="start"
         android:id="@+id/menuDrawerNav"
         app:menu="@menu/drawer"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints" >
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

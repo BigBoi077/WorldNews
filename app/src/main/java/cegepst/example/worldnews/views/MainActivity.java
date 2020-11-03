@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -28,24 +30,15 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private MenuItem favoriteItem;
     private MainPresenter presenter;
+    private ImageButton leftArrow;
+    private ImageButton rightArrow;
+
     private ArrayList<Article> articles;
     private ArrayList<Article> favoriteArticles;
     private ArticleMaker articleMaker;
+
     private String email;
     private int articleIndex;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        if (getIntent().hasExtra("email")) {
-            this.email = getIntent().getStringExtra("email");
-        }
-        presenter = new MainPresenter(this);
-        initVariables();
-        initBottomNavigation();
-        initDrawerNavigation();
-    }
 
     private void initDrawerNavigation() {
         DrawerLayout drawerLayout = findViewById(R.id.menuDrawer);
@@ -92,6 +85,19 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        if (getIntent().hasExtra("email")) {
+            this.email = getIntent().getStringExtra("email");
+        }
+        presenter = new MainPresenter(this);
+        initVariables();
+        initBottomNavigation();
+        initDrawerNavigation();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
@@ -134,6 +140,17 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     private void initVariables() {
+        initArticles();
+        initComponents();
+    }
+
+    private void initComponents() {
+        leftArrow = findViewById(R.id.leftButton);
+        leftArrow.setVisibility(View.GONE);
+        rightArrow = findViewById(R.id.rightButton);
+    }
+
+    private void initArticles() {
         articleMaker = new ArticleMaker(getApplicationContext());
         articles = new ArrayList<>();
         articleIndex = 0;
@@ -148,5 +165,15 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             return;
         }
         favoriteItem.setIcon(favorite ? R.drawable.ic_favorite_filled : R.drawable.ic_favorite_outlined);
+    }
+
+    public void goBackArticle(View view) {
+
+        // TODO : change fragment
+    }
+
+    public void goForwardArticle(View view) {
+
+        // TODO : change fragment
     }
 }

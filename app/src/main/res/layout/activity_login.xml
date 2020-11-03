@@ -48,7 +48,6 @@
         android:background="@color/colorSecondary"/>
 
     <Button
-        android:id="@+id/startButton"
         android:onClick="startSession"
         android:layout_marginTop="48dp"
         android:paddingLeft="12dp"
