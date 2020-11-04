@@ -19,7 +19,7 @@ public class ArticleFragment extends Fragment {
     public static ArticleFragment newInstance(String param1, String param2) {
         ArticleFragment fragment = new ArticleFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        // args.putString(ARG_PARAM1, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -28,8 +28,8 @@ public class ArticleFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            // mParam1 = getArguments().getString(ARG_PARAM1);
+            // mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 

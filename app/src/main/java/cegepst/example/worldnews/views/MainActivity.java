@@ -106,6 +106,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
         switch (item.getItemId()) {
             case R.id.actionFavorite:
                 if (favoriteItem == null) {
