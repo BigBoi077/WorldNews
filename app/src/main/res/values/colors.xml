@@ -6,4 +6,5 @@
     <color name="colorAccentTurquoise">#3B6064</color>
     <color name="colorAccentPaleGrey">#364958</color>
     <color name="colorAccentGrey">#0C120C</color>
+    <color name="colorWhite"></color>
 </resources>

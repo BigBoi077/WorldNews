@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -70,6 +71,9 @@ public class ArticleFragment extends Fragment {
         TextView numberViews = view.findViewById(R.id.articleViews);
         if (this.nbrViews == 0) {
             numberViews.setText("");
+            LinearLayout linearLayout = view.findViewById(R.id.fragmentLayout);
+            linearLayout.removeView(view.findViewById(R.id.line2));
+            linearLayout.removeView(view.findViewById(R.id.articleAuthor));
         } else {
             numberViews.setText(this.nbrViews + " vues");
         }

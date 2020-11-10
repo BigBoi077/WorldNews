@@ -104,7 +104,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         initBottomNavigation();
         initDrawerNavigation();
         changeFragmentArticle();
-
     }
 
     @Override

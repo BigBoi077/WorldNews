@@ -12,6 +12,7 @@
 
         <TextView
             android:id="@+id/articleTitle"
+            android:text="@string/titleHolder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="28dp" />
@@ -23,6 +24,7 @@
             android:background="@color/colorSecondary" />
 
         <LinearLayout
+            android:id="@+id/fragmentLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -30,11 +32,13 @@
 
             <TextView
                 android:id="@+id/articleAuthor"
+                android:text="@string/authorHolder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="18dp" />
 
             <View
+                android:id="@+id/line2"
                 android:layout_width="300dp"
                 android:layout_height="2dp"
                 android:layout_gravity="center"
@@ -42,6 +46,7 @@
 
             <TextView
                 android:id="@+id/articleViews"
+                android:text="@string/viewsHolder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="16dp" />
@@ -50,6 +55,7 @@
 
         <TextView
             android:id="@+id/articleDescription"
+            android:text=""
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16dp" />
