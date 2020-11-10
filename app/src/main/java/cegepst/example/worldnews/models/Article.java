@@ -17,6 +17,14 @@ public class Article {
         isFavorite = false;
     }
 
+    public Article(String title, String author, String description) {
+        this.title = title;
+        this.author = author;
+        this.description = description;
+        this.nbrViews = RandomGenerator.getRandomInRange(Constants.MAX_VIEWS, Constants.MIN_VIEWS);
+        isFavorite = false;
+    }
+
     public boolean isFavorite() {
         return isFavorite;
     }

@@ -40,9 +40,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private String email;
     private int articleIndex;
+    private int favoriteArticlesIndex;
     private boolean isFirstFragment = true;
-    private final boolean isFavoriteMode = false;
-    private boolean isCompactmode = false;
+    private boolean isFavoriteMode = false;
+    private boolean isCompactMode = false;
 
     private void initDrawerNavigation() {
         DrawerLayout drawerLayout = findViewById(R.id.menuDrawer);
@@ -58,9 +59,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.navHome:
+                        isFavoriteMode = false;
                         return true;
                     case R.id.navFavorites:
-                        // TODO : only show favorites
+                        isFavoriteMode = true;
+                        changeToFavoriteArticles();
+                        return true;
                     default:
                         return false;
                 }
@@ -77,12 +81,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 switch (item.getItemId()) {
                     case R.id.modeCompact:
                         Toast.makeText(getApplicationContext(), R.string.mode_compact, Toast.LENGTH_SHORT).show();
-                        isCompactmode = true;
+                        isCompactMode = true;
                         changeFragmentArticle();
                         return true;
                     case R.id.modeFull:
                         Toast.makeText(getApplicationContext(), R.string.mode_full, Toast.LENGTH_SHORT).show();
-                        isCompactmode = false;
+                        isCompactMode = false;
                         changeFragmentArticle();
                         return true;
                     default:
@@ -167,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         articles = new ArrayList<>();
         favoriteArticles = new ArrayList<>();
         articleIndex = 0;
+        favoriteArticlesIndex = 0;
         for (int index = 0; index < 10; index++) {
             articles.add(new Article(index, articleMaker));
         }
@@ -198,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private void changeFragmentArticle() {
         Article currentArticle = articles.get(articleIndex);
         ArticleFragment fragment;
-        if (isCompactmode) {
+        if (isCompactMode) {
             fragment = makeCompactArticle();
         } else {
             fragment = ArticleFragment.newInstance(
@@ -231,6 +236,26 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         );
     }
 
+    private ArticleFragment makeFavoriteCompactArticle() {
+        Article currentArticle;
+        if (favoriteArticles.size() == 0) {
+            currentArticle = new Article("You", "don't", "have any favorites");
+        } else {
+            currentArticle = favoriteArticles.get(favoriteArticlesIndex);
+            return ArticleFragment.newInstance(
+                    currentArticle.getTitle(),
+                    "",
+                    currentArticle.getDescription(),
+                    0);
+        }
+        return ArticleFragment.newInstance(
+                currentArticle.getTitle(),
+                "",
+                currentArticle.getDescription(),
+                0
+        );
+    }
+
     private void changeFavoriteAccordingToArticle() {
         if (favoriteItem == null) {
             return;
@@ -242,7 +267,48 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
     }
 
+    private void changeToFavoriteArticles() {
+        Article currentArticle;
+        ArticleFragment fragment;
+        if (favoriteArticles.size() == 0) {
+            currentArticle = new Article("You", "don't", "have any favorites");
+        } else {
+            currentArticle = favoriteArticles.get(favoriteArticlesIndex);
+        }
+        if (isCompactMode) {
+            fragment = makeFavoriteCompactArticle();
+        } else {
+            fragment = ArticleFragment.newInstance(
+                    currentArticle.getTitle(),
+                    currentArticle.getAuthor(),
+                    currentArticle.getDescription(),
+                    currentArticle.getNbrViews()
+            );
+        }
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void manageFavoriteArticle() {
+        if (favoriteArticles.size() == 0) {
+            leftArrow.setVisibility(View.GONE);
+            rightArrow.setVisibility(View.GONE);
+        }
+        if (favoriteArticlesIndex == favoriteArticles.size()) {
+            rightArrow.setVisibility(View.GONE);
+        }
+
+        changeToFavoriteArticles();
+    }
+
     public void goBackArticle(View view) {
+        if (isFavoriteMode) {
+            favoriteArticlesIndex--;
+            manageFavoriteArticle();
+            return;
+        }
         articleIndex--;
         if (articleIndex == 0) {
             leftArrow.setVisibility(View.GONE);
@@ -257,6 +323,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     public void goForwardArticle(View view) {
+        if (isFavoriteMode) {
+            favoriteArticlesIndex++;
+            manageFavoriteArticle();
+            return;
+        }
         articleIndex++;
         if (articleIndex == 9) {
             rightArrow.setVisibility(View.GONE);

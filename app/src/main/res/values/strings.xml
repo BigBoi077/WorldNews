@@ -18,4 +18,5 @@
     <string name="titleHolder">Title</string>
     <string name="authorHolder">John Doe</string>
     <string name="viewsHolder">666 vues</string>
+    <string name="descriptionHolder">Lorem Ipsum</string>
 </resources>
