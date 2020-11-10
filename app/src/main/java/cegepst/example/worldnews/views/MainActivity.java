@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         initVariables();
         initBottomNavigation();
         initDrawerNavigation();
+        changeFragmentArticle();
     }
 
     @Override
@@ -198,9 +199,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         articleIndex--;
         if (articleIndex == 0) {
             leftArrow.setVisibility(View.GONE);
+            rightArrow.setVisibility(View.VISIBLE);
             articleIndex = 0;
+            changeFragmentArticle();
         } else {
             leftArrow.setVisibility(View.VISIBLE);
+            rightArrow.setVisibility(View.VISIBLE);
             changeFragmentArticle();
         }
     }
@@ -209,9 +213,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         articleIndex++;
         if (articleIndex == 9) {
             rightArrow.setVisibility(View.GONE);
+            leftArrow.setVisibility(View.VISIBLE);
             articleIndex = 9;
+            changeFragmentArticle();
         } else {
             rightArrow.setVisibility(View.VISIBLE);
+            leftArrow.setVisibility(View.VISIBLE);
             changeFragmentArticle();
         }
     }
