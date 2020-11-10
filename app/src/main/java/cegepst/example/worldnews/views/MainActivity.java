@@ -60,9 +60,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 switch (item.getItemId()) {
                     case R.id.navHome:
                         isFavoriteMode = false;
+                        manageArrows();
+                        changeFragmentArticle();
                         return true;
                     case R.id.navFavorites:
                         isFavoriteMode = true;
+                        manageFavoriteArrows();
                         changeToFavoriteArticles();
                         return true;
                     default:
@@ -241,7 +244,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         if (favoriteArticles.size() == 0) {
             currentArticle = new Article("You", "don't", "have any favorites");
         } else {
-            currentArticle = favoriteArticles.get(favoriteArticlesIndex);
+            try {
+                currentArticle = favoriteArticles.get(favoriteArticlesIndex);
+            } catch (IndexOutOfBoundsException e) {
+                currentArticle = favoriteArticles.get(favoriteArticlesIndex - 1);
+            }
             return ArticleFragment.newInstance(
                     currentArticle.getTitle(),
                     "",
@@ -272,8 +279,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         ArticleFragment fragment;
         if (favoriteArticles.size() == 0) {
             currentArticle = new Article("You", "don't", "have any favorites");
+            leftArrow.setVisibility(View.GONE);
+            rightArrow.setVisibility(View.GONE);
         } else {
-            currentArticle = favoriteArticles.get(favoriteArticlesIndex);
+            try {
+                currentArticle = favoriteArticles.get(favoriteArticlesIndex);
+            } catch (IndexOutOfBoundsException e) {
+                currentArticle = favoriteArticles.get(favoriteArticlesIndex - 1);
+            }
         }
         if (isCompactMode) {
             fragment = makeFavoriteCompactArticle();
@@ -296,28 +309,53 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             leftArrow.setVisibility(View.GONE);
             rightArrow.setVisibility(View.GONE);
         }
-        if (favoriteArticlesIndex == favoriteArticles.size()) {
-            rightArrow.setVisibility(View.GONE);
-        }
-
+        manageFavoriteArrows();
         changeToFavoriteArticles();
+    }
+
+    private void manageArrows() {
+        if (articleIndex == 9) {
+            rightArrow.setVisibility(View.GONE);
+            leftArrow.setVisibility(View.VISIBLE);
+            articleIndex = 9;
+            return;
+        }
+        if (articleIndex == 0) {
+            leftArrow.setVisibility(View.GONE);
+            rightArrow.setVisibility(View.VISIBLE);
+            articleIndex = 0;
+            return;
+        }
+        rightArrow.setVisibility(View.VISIBLE);
+        leftArrow.setVisibility(View.VISIBLE);
+    }
+
+    private void manageFavoriteArrows() {
+        if (favoriteArticlesIndex == favoriteArticles.size() - 1) {
+            rightArrow.setVisibility(View.GONE);
+            leftArrow.setVisibility(View.VISIBLE);
+            favoriteArticlesIndex = favoriteArticles.size();
+            return;
+        }
+        if (favoriteArticlesIndex == 0) {
+            leftArrow.setVisibility(View.GONE);
+            rightArrow.setVisibility(View.VISIBLE);
+            favoriteArticlesIndex = 0;
+            return;
+        }
+        rightArrow.setVisibility(View.VISIBLE);
+        leftArrow.setVisibility(View.VISIBLE);
     }
 
     public void goBackArticle(View view) {
         if (isFavoriteMode) {
             favoriteArticlesIndex--;
+            favoriteArticlesIndex--;
             manageFavoriteArticle();
             return;
         }
         articleIndex--;
-        if (articleIndex == 0) {
-            leftArrow.setVisibility(View.GONE);
-            rightArrow.setVisibility(View.VISIBLE);
-            articleIndex = 0;
-        } else {
-            leftArrow.setVisibility(View.VISIBLE);
-            rightArrow.setVisibility(View.VISIBLE);
-        }
+        manageArrows();
         changeFragmentArticle();
         changeFavoriteAccordingToArticle();
     }
@@ -329,14 +367,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             return;
         }
         articleIndex++;
-        if (articleIndex == 9) {
-            rightArrow.setVisibility(View.GONE);
-            leftArrow.setVisibility(View.VISIBLE);
-            articleIndex = 9;
-        } else {
-            rightArrow.setVisibility(View.VISIBLE);
-            leftArrow.setVisibility(View.VISIBLE);
-        }
+        manageArrows();
         changeFragmentArticle();
         changeFavoriteAccordingToArticle();
     }

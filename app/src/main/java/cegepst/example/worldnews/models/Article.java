@@ -21,7 +21,7 @@ public class Article {
         this.title = title;
         this.author = author;
         this.description = description;
-        this.nbrViews = RandomGenerator.getRandomInRange(Constants.MAX_VIEWS, Constants.MIN_VIEWS);
+        this.nbrViews = 1;
         isFavorite = false;
     }
 
