@@ -1,10 +1,5 @@
 package cegepst.example.worldnews.views;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +8,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private String email;
     private int articleIndex;
+    private boolean isFirstFragment = true;
 
     private void initDrawerNavigation() {
         DrawerLayout drawerLayout = findViewById(R.id.menuDrawer);
@@ -72,9 +74,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.modeCompact:
+                        Toast.makeText(getApplicationContext(), R.string.mode_compact, Toast.LENGTH_SHORT).show();
                         // TODO : put article mode compact
                         return true;
                     case R.id.modeFull:
+                        Toast.makeText(getApplicationContext(), R.string.mode_full, Toast.LENGTH_SHORT).show();
                         // TODO : put article mode full
                         return true;
                     default:
@@ -149,14 +153,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private void initComponents() {
         leftArrow = findViewById(R.id.leftButton);
-        leftArrow.setVisibility(View.GONE);
         rightArrow = findViewById(R.id.rightButton);
     }
 
     private void initArticles() {
         articleMaker = new ArticleMaker(getApplicationContext());
         articles = new ArrayList<>();
-        articleIndex = 0;
+        articleIndex = 1;
         for (int index = 0; index < 10; index++) {
             articles.add(new Article(index, articleMaker));
         }
@@ -170,13 +173,46 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         favoriteItem.setIcon(favorite ? R.drawable.ic_favorite_filled : R.drawable.ic_favorite_outlined);
     }
 
-    public void goBackArticle(View view) {
+    private void changeFragmentArticle() {
+        Article currentArticle = articles.get(articleIndex);
+        ArticleFragment articleFragment = ArticleFragment.newInstance(
+                currentArticle.getTitle(),
+                currentArticle.getAuthor(),
+                currentArticle.getDescription(),
+                currentArticle.getNbrViews()
+        );
+        if (isFirstFragment) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragmentContainer, articleFragment)
+                    .commit();
+            isFirstFragment = false;
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer, articleFragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
+    }
 
-        // TODO : change fragment
+    public void goBackArticle(View view) {
+        articleIndex--;
+        if (articleIndex == 0) {
+            leftArrow.setVisibility(View.GONE);
+            articleIndex = 0;
+        } else {
+            leftArrow.setVisibility(View.VISIBLE);
+            changeFragmentArticle();
+        }
     }
 
     public void goForwardArticle(View view) {
-
-        // TODO : change fragment
+        articleIndex++;
+        if (articleIndex == 9) {
+            rightArrow.setVisibility(View.GONE);
+            articleIndex = 9;
+        } else {
+            rightArrow.setVisibility(View.VISIBLE);
+            changeFragmentArticle();
+        }
     }
 }
