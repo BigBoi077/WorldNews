@@ -68,7 +68,11 @@ public class ArticleFragment extends Fragment {
         articleAuthor.setText(this.articleAuthor);
 
         TextView numberViews = view.findViewById(R.id.articleViews);
-        numberViews.setText(this.nbrViews + " vues");
+        if (this.nbrViews == 0) {
+            numberViews.setText("");
+        } else {
+            numberViews.setText(this.nbrViews + " vues");
+        }
 
         TextView articleDescription = view.findViewById(R.id.articleDescription);
         articleDescription.setText(this.articleDescription);

@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private String email;
     private int articleIndex;
     private boolean isFirstFragment = true;
+    private final boolean isFavoriteMode = false;
+    private boolean isCompactmode = false;
 
     private void initDrawerNavigation() {
         DrawerLayout drawerLayout = findViewById(R.id.menuDrawer);
@@ -75,11 +77,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 switch (item.getItemId()) {
                     case R.id.modeCompact:
                         Toast.makeText(getApplicationContext(), R.string.mode_compact, Toast.LENGTH_SHORT).show();
-                        // TODO : put article mode compact
+                        isCompactmode = true;
+                        changeFragmentArticle();
                         return true;
                     case R.id.modeFull:
                         Toast.makeText(getApplicationContext(), R.string.mode_full, Toast.LENGTH_SHORT).show();
-                        // TODO : put article mode full
+                        isCompactmode = false;
+                        changeFragmentArticle();
                         return true;
                     default:
                         return false;
@@ -100,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         initBottomNavigation();
         initDrawerNavigation();
         changeFragmentArticle();
+
     }
 
     @Override
@@ -154,15 +159,25 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private void initComponents() {
         leftArrow = findViewById(R.id.leftButton);
+        leftArrow.setVisibility(View.GONE);
         rightArrow = findViewById(R.id.rightButton);
     }
 
     private void initArticles() {
         articleMaker = new ArticleMaker(getApplicationContext());
         articles = new ArrayList<>();
-        articleIndex = 1;
+        favoriteArticles = new ArrayList<>();
+        articleIndex = 0;
         for (int index = 0; index < 10; index++) {
             articles.add(new Article(index, articleMaker));
+        }
+    }
+
+    private void removeArticleWithSameTitle(String title) {
+        for (int i = 0; i < favoriteArticles.size(); i++) {
+            if (favoriteArticles.get(i).getTitle() == title) {
+                favoriteArticles.remove(i);
+            }
         }
     }
 
@@ -171,27 +186,60 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         if (favoriteItem == null) {
             return;
         }
-        favoriteItem.setIcon(favorite ? R.drawable.ic_favorite_filled : R.drawable.ic_favorite_outlined);
+        if (favorite) {
+            favoriteItem.setIcon(R.drawable.ic_favorite_filled);
+            favoriteArticles.add(articles.get(articleIndex));
+            articles.get(articleIndex).setFavorite(true);
+        } else {
+            favoriteItem.setIcon(R.drawable.ic_favorite_outlined);
+            removeArticleWithSameTitle(articles.get(articleIndex).getTitle());
+        }
     }
 
     private void changeFragmentArticle() {
         Article currentArticle = articles.get(articleIndex);
-        ArticleFragment articleFragment = ArticleFragment.newInstance(
-                currentArticle.getTitle(),
-                currentArticle.getAuthor(),
-                currentArticle.getDescription(),
-                currentArticle.getNbrViews()
-        );
+        ArticleFragment fragment;
+        if (isCompactmode) {
+            fragment = makeCompactArticle();
+        } else {
+            fragment = ArticleFragment.newInstance(
+                    currentArticle.getTitle(),
+                    currentArticle.getAuthor(),
+                    currentArticle.getDescription(),
+                    currentArticle.getNbrViews()
+            );
+        }
         if (isFirstFragment) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragmentContainer, articleFragment)
+                    .add(R.id.fragmentContainer, fragment)
                     .commit();
             isFirstFragment = false;
         } else {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, articleFragment)
+                    .replace(R.id.fragmentContainer, fragment)
                     .addToBackStack(null)
                     .commit();
+        }
+    }
+
+    private ArticleFragment makeCompactArticle() {
+        Article currentArticle = articles.get(articleIndex);
+        return ArticleFragment.newInstance(
+                currentArticle.getTitle(),
+                "",
+                currentArticle.getDescription(),
+                0
+        );
+    }
+
+    private void changeFavoriteAccordingToArticle() {
+        if (favoriteItem == null) {
+            return;
+        }
+        if (articles.get(articleIndex).isFavorite()) {
+            favoriteItem.setIcon(R.drawable.ic_favorite_filled);
+        } else {
+            favoriteItem.setIcon(R.drawable.ic_favorite_outlined);
         }
     }
 
@@ -201,12 +249,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             leftArrow.setVisibility(View.GONE);
             rightArrow.setVisibility(View.VISIBLE);
             articleIndex = 0;
-            changeFragmentArticle();
         } else {
             leftArrow.setVisibility(View.VISIBLE);
             rightArrow.setVisibility(View.VISIBLE);
-            changeFragmentArticle();
         }
+        changeFragmentArticle();
+        changeFavoriteAccordingToArticle();
     }
 
     public void goForwardArticle(View view) {
@@ -215,11 +263,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             rightArrow.setVisibility(View.GONE);
             leftArrow.setVisibility(View.VISIBLE);
             articleIndex = 9;
-            changeFragmentArticle();
         } else {
             rightArrow.setVisibility(View.VISIBLE);
             leftArrow.setVisibility(View.VISIBLE);
-            changeFragmentArticle();
         }
+        changeFragmentArticle();
+        changeFavoriteAccordingToArticle();
     }
 }

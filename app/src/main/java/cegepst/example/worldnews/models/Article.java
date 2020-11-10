@@ -3,22 +3,22 @@ package cegepst.example.worldnews.models;
 public class Article {
 
     private ArticleMaker articleMaker;
-    private String title;
-    private String author;
-    private String description;
-    private int nbrViews;
-    private boolean compactMode;
+    private final String title;
+    private final String author;
+    private final String description;
+    private final int nbrViews;
+    private boolean isFavorite;
 
     public Article(int index, ArticleMaker articleMaker) {
         title = articleMaker.getArticleTitle(index);
         author = articleMaker.getAuthors(index);
         description = articleMaker.getArticleContent(index);
         nbrViews = RandomGenerator.getRandomInRange(Constants.MAX_VIEWS, Constants.MIN_VIEWS);
-        compactMode = false;
+        isFavorite = false;
     }
 
-    public void setCompactMode(boolean compactMode) {
-        this.compactMode = compactMode;
+    public boolean isFavorite() {
+        return isFavorite;
     }
 
     public ArticleMaker getArticleMaker() {
@@ -41,7 +41,7 @@ public class Article {
         return nbrViews;
     }
 
-    public boolean isCompactMode() {
-        return compactMode;
+    public void setFavorite(boolean favorite) {
+        this.isFavorite = favorite;
     }
 }
