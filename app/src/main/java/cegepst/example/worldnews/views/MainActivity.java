@@ -194,12 +194,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             return;
         }
         if (favorite) {
+            favoriteItem.setIcon(R.drawable.ic_favorite_outlined);
+            removeArticleWithSameTitle(articles.get(articleIndex).getTitle());
+        } else {
             favoriteItem.setIcon(R.drawable.ic_favorite_filled);
             favoriteArticles.add(articles.get(articleIndex));
             articles.get(articleIndex).setFavorite(true);
-        } else {
-            favoriteItem.setIcon(R.drawable.ic_favorite_outlined);
-            removeArticleWithSameTitle(articles.get(articleIndex).getTitle());
         }
     }
 
