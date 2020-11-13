@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private MenuItem favoriteItem;
+
     private MainPresenter presenter;
     private ImageButton leftArrow;
     private ImageButton rightArrow;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                         return true;
                     case R.id.navFavorites:
                         isFavoriteMode = true;
+                        favoriteArticlesIndex = 0;
                         manageFavoriteArrows();
                         changeToFavoriteArticles();
                         return true;
@@ -242,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private ArticleFragment makeFavoriteCompactArticle() {
         Article currentArticle;
         if (favoriteArticles.size() == 0) {
-            currentArticle = new Article("You", "don't", "have any favorites");
+            currentArticle = new Article("Vous", "n'avez pas", "de favoris enregistrés");
         } else {
             try {
                 currentArticle = favoriteArticles.get(favoriteArticlesIndex);
@@ -331,6 +333,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     private void manageFavoriteArrows() {
+        if (favoriteArticles.size() == 1) {
+            leftArrow.setVisibility(View.GONE);
+            rightArrow.setVisibility(View.GONE);
+            return;
+        }
         if (favoriteArticlesIndex == favoriteArticles.size() - 1) {
             rightArrow.setVisibility(View.GONE);
             leftArrow.setVisibility(View.VISIBLE);

@@ -72,7 +72,8 @@ public class ArticleFragment extends Fragment {
         if (this.nbrViews == 0) {
             numberViews.setText("");
             LinearLayout linearLayout = view.findViewById(R.id.fragmentLayout);
-            linearLayout.removeView(view.findViewById(R.id.line2));
+            View line = view.findViewById(R.id.line2);
+            ((ViewGroup) line.getParent()).removeView(line);
             linearLayout.removeView(view.findViewById(R.id.articleAuthor));
         } else {
             numberViews.setText(this.nbrViews + " vues");

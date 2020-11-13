@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/modeFull"
+        android:icon="@drawable/ic_full_mode"
+        android:title="@string/mode_full" />
+
+    <item
         android:icon="@drawable/ic_compact_mode"
         android:title="@string/mode_compact"
         android:id="@+id/modeCompact" />
-
-    <item
-        android:icon="@drawable/ic_full_mode"
-        android:title="@string/mode_full"
-        android:id="@+id/modeFull" />
 </menu>
